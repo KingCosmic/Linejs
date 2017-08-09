@@ -3,7 +3,7 @@ a wrapper for the line api in js
 
 ## Installation
 
-atm dont have this uploaded to npm will do so once they respond
+npm install --save line.js
 
 ## Usage
 const line = require('./index.js');
