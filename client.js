@@ -35,7 +35,7 @@ function Client(config) {
 
   this.app.use(middleware(config))
 
-  this.app.post('/webhook', (req, res) => {
+  this.app.post('/', (req, res) => {
 
     var events = req.body.events;
 
