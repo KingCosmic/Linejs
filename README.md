@@ -6,7 +6,7 @@ a wrapper for the line api in js
 npm install --save line.js
 
 ## Usage
-const line = require('./index.js');
+const line = require('line.js');
 
 var client = new line.Client({
   channelAccessToken: "",
