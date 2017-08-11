@@ -1,6 +1,6 @@
 {
   "name": "line.js",
-  "version": "1.0.7",
+  "version": "1.0.11",
   "description": "a wrapper for the line api",
   "main": "index.js",
   "scripts": {

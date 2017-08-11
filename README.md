@@ -1,6 +1,8 @@
 # Linejs
 A wrapper for the line api in js.
 
+if you have any questions feel free to msg me on [Discord](https://discordapp.com/) KingCosmic#2713 or [line](https://line.me/en/) austyn-studdard
+
 ## Installation
 
 ```
