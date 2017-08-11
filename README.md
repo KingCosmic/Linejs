@@ -30,4 +30,23 @@ var client = new line.Client({
 
 client.on("message", function(msg) {
 
+  // msg = { content: String, author:Object { displayName: String, id: Number, pictureUrl: Url, statusMessage: String, reply: function(content) }
+  // msg.author = { displayName: String, id: Number, pictureUrl: Url, statusMessage: String, sendMessage: function(content) }
+  // if its a group msg
+  // msg.group = { id: Number, leave: function }
+
+  if (msg.content == "ping") {
+    msg.reply("pong");
+  }
+
+  if (msg.content == "msg me") {
+    msg.author.sendMessage("Hello Sir");
+  }
+
+  if (msg.content == "leave") {
+    if (msg.group) {
+      msg.group.leave();
+    }
+  }
+
 })
