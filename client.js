@@ -12,10 +12,24 @@ function Client(config) {
     channelAccessToken: config.channelAccessToken
   });
 
+  that.client.getProfile(config.userId)
+  .then((profile) => {
+
+    that.user = {
+      displayName: profile.displayName,
+      id: profile.userId,
+      pictureUrl: profile.pictureUrl,
+      statusMessage: profile.statusMessage
+    }
+  })
+
   this.message = []
+  this.join = []
 
   this.on = function(event, callback) {
     if (event == "message") this.message.push(callback);
+
+    if (event == "join") this.join.push(callback);
   }
 
   this.event = function(event) {
@@ -31,6 +45,13 @@ function Client(config) {
         });
       }
     }
+    if (event == "join") {
+      if (this.join.length != 0) {
+        this.join.forEach(function(callback) {
+          callback.apply(null, args)
+        });
+      }
+    }
   }
 
   this.app.use(middleware(config))
@@ -39,15 +60,11 @@ function Client(config) {
 
     var events = req.body.events;
 
-    if (events.length == 1) {
-      var event = events[0];
-
-      console.log(event)
-
+    events.forEach(function(event) {
       if (event.type == "message" && event.message.type == "text") {
         // check for commands and change the response msg
 
-        this.client.getProfile(event.source.userId)
+        that.client.getProfile(event.source.userId)
         .then((profile) => {
 
           var msg;
@@ -61,7 +78,11 @@ function Client(config) {
                 pictureUrl: profile.pictureUrl,
                 statusMessage: profile.statusMessage,
                 sendMessage: function(content) {
-                  that.client.pushMessage(profile.userId, {type: "text", text: content});
+                  if (typeof(content) == "string") {
+                    that.client.pushMessage(profile.userId, {type: "text", text: content});
+                  } else if (typeof(content) == "object") {
+                    that.client.pushMessage(profile.userId, content);
+                  }
                 }
               },
               group: {
@@ -73,7 +94,11 @@ function Client(config) {
 
               },
               reply: function(content) {
-                that.client.replyMessage(event.replyToken, {type: "text", text: content});
+                if (typeof(content) == "string") {
+                  that.client.replyMessage(event.replyToken, {type: "text", text: content});
+                } else if (typeof(content) == "object") {
+                  that.client.replyMessage(event.replyToken, content);
+                }
               }
             }
           } else {
@@ -85,24 +110,72 @@ function Client(config) {
                 pictureUrl: profile.pictureUrl,
                 statusMessage: profile.statusMessage,
                 sendMessage: function(content) {
-                  that.client.pushMessage(profile.userId, {type: "text", text: content});
+                  if (typeof(content) == "string") {
+                    that.client.pushMessage(profile.userId, {type: "text", text: content});
+                  } else if (typeof(content) == "object") {
+                    that.client.pushMessage(profile.userId, content);
+                  }
                 }
               },
               reply: function(content) {
-                that.client.replyMessage(event.replyToken, {type: "text", text: content});
+                if (typeof(content) == "string") {
+                  that.client.replyMessage(event.replyToken, {type: "text", text: content});
+                } else if (typeof(content) == "object") {
+                  that.client.replyMessage(event.replyToken, content);
+                }
               }
             }
           }
 
-          this.event("message", msg);
+          that.event("message", msg);
 
         })
 
       }
-
-    }
+      if (event.type == "join") {
+        that.event("join", event);
+      }
+      if (event.type == "follow") {
+        this.client.getProfile(event.source.userId)
+        .then((profile) => {
+          var user = {
+            displayName: profile.displayName,
+            id: profile.userId,
+            pictureUrl: profile.pictureUrl,
+            statusMessage: profile.statusMessage,
+            sendMessage: function(content) {
+              if (typeof(content) == "string") {
+                that.client.pushMessage(profile.userId, {type: "text", text: content});
+              } else if (typeof(content) == "object") {
+                that.client.pushMessage(profile.userId, content);
+              }
+            }
+          }
+        })
+      }
+      if (event.type == "unfollow") {
+        this.client.getProfile(event.source.userId)
+        .then((profile) => {
+          var user = {
+            displayName: profile.displayName,
+            id: profile.userId,
+            pictureUrl: profile.pictureUrl,
+            statusMessage: profile.statusMessage,
+            sendMessage: function(content) {
+              if (typeof(content) == "string") {
+                that.client.pushMessage(profile.userId, {type: "text", text: content});
+              } else if (typeof(content) == "object") {
+                that.client.pushMessage(profile.userId, content);
+              }
+            }
+          }
+        })
+      }
+    })
 
   })
+
+
 
   this.app.listen(config.port, function() {
     console.log("ready");
