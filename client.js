@@ -1,41 +1,45 @@
-const express = require('express')
+// express so we can setup our server for real time events
+const express = require('express');
+// the line sdk to make working with their api easier
 const line = require('@line/bot-sdk');
+// middleware for express
 const middleware = line.middleware
 
+// Our client Object
 function Client(config) {
 
+  // doing this so we can store things appropriatly in other functions
   var that = this;
 
+  // Initialize express
   this.app = express();
 
+  // Making a client with the line sdk so we can send msgs
   this.client = new line.Client({
     channelAccessToken: config.channelAccessToken
   });
 
-  that.client.getProfile(config.userId)
-  .then((profile) => {
+  this.sendMessage = (user, content) => {
+    that.client.pushMessage(user, {type: "text", text: content});
+  }
 
-    that.user = {
-      displayName: profile.displayName,
-      id: profile.userId,
-      pictureUrl: profile.pictureUrl,
-      statusMessage: profile.statusMessage
-    }
-  })
-
+  // the event arrays ( may be a nicer way to do this)
   this.message = []
   this.join = []
 
-  this.on = function(event, callback) {
+  // function to let the users setup event callbacks
+  this.on = (event, callback) => {
     if (event == "message") this.message.push(callback);
 
     if (event == "join") this.join.push(callback);
   }
 
+  // a function to call the event with the arguments
   this.event = function(event) {
 
     var args = Array.from(arguments);
 
+    // remove the event name from the arguments passed
     args.splice(0, 1);
 
     if (event == "message") {
@@ -54,15 +58,16 @@ function Client(config) {
     }
   }
 
+  // setting up express to use lines middleware
   this.app.use(middleware(config))
 
+  // setting up our code to determin what events we have
   this.app.post('/', (req, res) => {
 
     var events = req.body.events;
 
     events.forEach(function(event) {
       if (event.type == "message" && event.message.type == "text") {
-        // check for commands and change the response msg
 
         that.client.getProfile(event.source.userId)
         .then((profile) => {
@@ -77,7 +82,7 @@ function Client(config) {
                 id: profile.userId,
                 pictureUrl: profile.pictureUrl,
                 statusMessage: profile.statusMessage,
-                sendMessage: function(content) {
+                sendMessage: (content) => {
                   if (typeof(content) == "string") {
                     that.client.pushMessage(profile.userId, {type: "text", text: content});
                   } else if (typeof(content) == "object") {
@@ -87,13 +92,15 @@ function Client(config) {
               },
               group: {
                 id: event.source.groupId,
-
-                leave: function () {
-                  that.client.leaveGroup(`${this.id}`);
+                sendMessage: (content) => {
+                  that.client.pushMessage(this.id, {type: "text", text: content})
+                },
+                leave: () => {
+                  that.client.leaveGroup(this.id);
                 }
 
               },
-              reply: function(content) {
+              reply: (content) => {
                 if (typeof(content) == "string") {
                   that.client.replyMessage(event.replyToken, {type: "text", text: content});
                 } else if (typeof(content) == "object") {
@@ -109,7 +116,7 @@ function Client(config) {
                 id: profile.userId,
                 pictureUrl: profile.pictureUrl,
                 statusMessage: profile.statusMessage,
-                sendMessage: function(content) {
+                sendMessage: (content) => {
                   if (typeof(content) == "string") {
                     that.client.pushMessage(profile.userId, {type: "text", text: content});
                   } else if (typeof(content) == "object") {
@@ -117,7 +124,7 @@ function Client(config) {
                   }
                 }
               },
-              reply: function(content) {
+              reply: (content) => {
                 if (typeof(content) == "string") {
                   that.client.replyMessage(event.replyToken, {type: "text", text: content});
                 } else if (typeof(content) == "object") {
@@ -169,6 +176,9 @@ function Client(config) {
               }
             }
           }
+
+
+
         })
       }
     })
@@ -178,7 +188,7 @@ function Client(config) {
 
 
   this.app.listen(config.port, function() {
-    console.log("ready");
+
   })
 }
 

@@ -1,6 +1,6 @@
 {
   "name": "line.js",
-  "version": "2.0.0",
+  "version": "2.3.2",
   "description": "a wrapper for the line api",
   "main": "index.js",
   "scripts": {
@@ -19,5 +19,10 @@
   "dependencies": {
     "@line/bot-sdk": "^2.0.0",
     "express": "^4.15.4"
-  }
+  },
+  "keywords": [
+    "line",
+    "wrapper",
+    "api"
+  ]
 }

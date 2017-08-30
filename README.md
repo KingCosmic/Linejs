@@ -38,7 +38,7 @@ client.on("message", function(msg) {
   // msg = { content: String, author:Object { displayName: String, id: Number, pictureUrl: Url, statusMessage: String, reply: function(content) }
   // msg.author = { displayName: String, id: Number, pictureUrl: Url, statusMessage: String, sendMessage: function(content) }
   // if its a group msg
-  // msg.group = { id: Number, leave: function }
+  // msg.group = { id: Number, sendMessage: function(content), leave: function }
 
   if (msg.content == "ping") {
     msg.reply("pong");
