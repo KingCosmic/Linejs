@@ -21,7 +21,7 @@ ngrok executable located and type `ngrok http port` replacing port with the port
 
 It will then give you a link that is something like `https://8239483209.ngrok.io`, copy that and head to your bots page
 
-[BotPage(not sure if this will work for everyone)](https://business.line.me/en/companies/1273117/accounts?ownerType=company&roleType=operator) click on your bots Line Devlopers button and set its webhook to the ngrok link you got.
+[BotPage](https://business.line.me/en/companies/) click on yourcompany then on your bots Line Devlopers button and set its webhook to the ngrok link you got.
 
 ## Usage
 ```JS
@@ -35,8 +35,8 @@ var client = new line.Client({
 
 client.on("message", function(msg) {
 
-  // msg = { content: String, author:Object { displayName: String, id: Number, pictureUrl: Url, statusMessage: String, reply: function(content) }
-  // msg.author = { displayName: String, id: Number, pictureUrl: Url, statusMessage: String, sendMessage: function(content) }
+  // msg = { content: String, author: Object, reply: function(content) }
+  // msg.author = { username: String, id: Number, pictureUrl: Url, statusMessage: String, sendMessage: function(content) }
   // if its a group msg
   // msg.group = { id: Number, sendMessage: function(content), leave: function }
 

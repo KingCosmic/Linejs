@@ -78,7 +78,7 @@ function Client(config) {
             msg = {
               content: event.message.text,  // the message content
               author: {
-                displayName: profile.displayName,
+                username: profile.displayName,
                 id: profile.userId,
                 pictureUrl: profile.pictureUrl,
                 statusMessage: profile.statusMessage,
@@ -112,7 +112,7 @@ function Client(config) {
             msg = {
               content: event.message.text,  // the message content
               author: {
-                displayName: profile.displayName,
+                username: profile.displayName,
                 id: profile.userId,
                 pictureUrl: profile.pictureUrl,
                 statusMessage: profile.statusMessage,
@@ -146,7 +146,7 @@ function Client(config) {
         this.client.getProfile(event.source.userId)
         .then((profile) => {
           var user = {
-            displayName: profile.displayName,
+            username: profile.displayName,
             id: profile.userId,
             pictureUrl: profile.pictureUrl,
             statusMessage: profile.statusMessage,
@@ -164,7 +164,7 @@ function Client(config) {
         this.client.getProfile(event.source.userId)
         .then((profile) => {
           var user = {
-            displayName: profile.displayName,
+            username: profile.displayName,
             id: profile.userId,
             pictureUrl: profile.pictureUrl,
             statusMessage: profile.statusMessage,
