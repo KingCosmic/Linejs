@@ -14,7 +14,8 @@ module.exports = (event, LineClient, cb) => {
       }),
       sendMessage: (message) => {
         if (typeof(message) == "string") {
-          LineClient.pushMessage(event.source.groupId, {type: "text", text: message});
+          LineClient.pushMessage(event.source.groupId, {type: "text", text: message})
+          .catch((err) => {console.log(err)});
         } else if (typeof(content) == "object") {
           LineClient.pushMessage(event.source.groupId, message)
         }
