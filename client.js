@@ -12,6 +12,10 @@ module.exports = class Client {
     // setting up express to use lines middleware
     this.app.use(middleware(config))
 
+    this.LineClient = new line.Client({
+      channelAccessToken: config.channelAccessToken
+    })
+
     this.app.post('/', (req, res) => {
       var events = req.body.events;
 
@@ -27,13 +31,9 @@ module.exports = class Client {
     this.app.listen(config.port, () => {
       
     })
-
-    this.LineClient = new line.Client({
-      channelAccessToken: config.channelAccessToken
-    })
   }
 
-  getUserProfile = (userId) => {
+  getUserProfile(userId) {
     return new Promise((resolve, reject) => {
       this.LineClient.getProfile(userId)
       .then((userProfile) => {
@@ -45,7 +45,7 @@ module.exports = class Client {
     })
   }
 
-  sendMessage = (id, message) => {
+  sendMessage(id, message) {
     if (typeof(content) == "string") {
       this.LineClient.pushMessage(id, {type: "text", text: message});
     } else if (typeof(content) == "object") {
@@ -55,7 +55,7 @@ module.exports = class Client {
 
   callBacks = {};
 
-  on = (event, callback) => {
+  on(event, callback) {
     if (this.callBacks[event]) {
       this.callBacks[event].push(callback);
     } else if (!this.callBacks[event]) {
@@ -64,7 +64,7 @@ module.exports = class Client {
     }
   }
 
-  event = (event) => {
+  event(event) {
     
     var args = Array.from(arguments);
 
