@@ -14,9 +14,9 @@ module.exports = (event, LineClient, cb) => {
       }),
       sendMessage: (message) => {
         if (typeof(message) == "string") {
-          LineClient.replyMessage(event.source.groupId, {type: "text", text: message});
+          LineClient.pushMessage(event.source.groupId, {type: "text", text: message});
         } else if (typeof(content) == "object") {
-          LineClient.replyMessage(event.source.groupId, message)
+          LineClient.pushMessage(event.source.groupId, message)
         }
       }
     }
@@ -34,9 +34,9 @@ module.exports = (event, LineClient, cb) => {
       }),
       sendMessage: (message) => {
         if (typeof(message) == "string") {
-          LineClient.replyMessage(event.source.roomId, {type: "text", text: message});
+          LineClient.pushMessage(event.source.roomId, {type: "text", text: message});
         } else if (typeof(content) == "object") {
-          LineClient.replyMessage(event.source.roomId, message)
+          LineClient.pushMessage(event.source.roomId, message)
         }
       }
     }
