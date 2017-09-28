@@ -1,9 +1,9 @@
 
 module.exports = (event, LineClient, cb) => {
-  var JoinEvent = {
-    joinId: event.source.type == "group" ? event.source.groupId : event.source.roomId,
-    getMemberIds: new Promise((resolve, reject) => {
-      if (event.source.type == "group") {
+  if (event.source.type == "group") {
+    var JoinEvent = {
+      joinId: event.source.groupId,
+      getMemberIds: new Promise((resolve, reject) => {
         LineClient.getGroupMemberIds(event.source.groupId)
         .then((userIds) => {
           resolve(userIds);
@@ -11,7 +11,19 @@ module.exports = (event, LineClient, cb) => {
         .catch((err) => {
           reject(err);
         })
-      } else {
+      }),
+      sendMessage: (message) => {
+        if (typeof(message) == "string") {
+          LineClient.replyMessage(event.source.groupId, {type: "text", text: message});
+        } else if (typeof(content) == "object") {
+          LineClient.replyMessage(event.source.groupId, message)
+        }
+      }
+    }
+  } else {
+    var JoinEvent = {
+      joinId: event.source.roomId,
+      getMemberIds: new Promise((resolve, reject) => {
         LineClient.getRoomMemberIds(event.source.roomId)
         .then((userIds) => {
           resolve(userIds);
@@ -19,13 +31,13 @@ module.exports = (event, LineClient, cb) => {
         .catch((err) => {
           reject(err);
         })
-      }
-    }),
-    sendMessage: (message) => {
-      if (typeof(message) == "string") {
-        LineClient.replyMessage(event.replyToken, {type: "text", text: message});
-      } else if (typeof(content) == "object") {
-        LineClient.replyMessage(event.replyToken, message)
+      }),
+      sendMessage: (message) => {
+        if (typeof(message) == "string") {
+          LineClient.replyMessage(event.source.roomId, {type: "text", text: message});
+        } else if (typeof(content) == "object") {
+          LineClient.replyMessage(event.source.roomId, message)
+        }
       }
     }
   }
