@@ -1,5 +1,5 @@
 
-module.exports = (event, LineClient, cb) => {
+module.exports = (event, cb) => {
   LineClient.getProfile(event.source.userId)
   .then((profile) => {
 
@@ -17,6 +17,13 @@ module.exports = (event, LineClient, cb) => {
             } else if (typeof(content) == "object") {
               LineClient.pushMessage(profile.userId, content);
             }
+          }
+        },
+        reply: (content) => {
+          if (typeof(content) == "string") {
+            LineClient.replyMessage(event.replyToken, {type: "text", text: content});
+          } else if (typeof(content) == "object") {
+            LineClient.replyMessage(event.replyToken, content);
           }
         }
       }

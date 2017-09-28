@@ -1,5 +1,5 @@
 
-module.exports = (event, LineClient, cb) => {
+module.exports = (event, cb) => {
   if (event.source.type == "group") {
     var JoinEvent = {
       joinId: event.source.groupId,
