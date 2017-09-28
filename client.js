@@ -16,6 +16,8 @@ module.exports = class Client {
       channelAccessToken: config.channelAccessToken
     })
 
+    this.callBacks = {};
+
     this.app.post('/', (req, res) => {
       var events = req.body.events;
 
@@ -52,8 +54,6 @@ module.exports = class Client {
       this.LineClient.pushMessage(id, message);
     }
   }
-
-  callBacks = {};
 
   on(event, callback) {
     if (this.callBacks[event]) {
