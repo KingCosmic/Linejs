@@ -25,5 +25,6 @@ module.exports = (event, cb) => {
     }
   }
 
+  console.log(JoinEvent);
   cb(JoinEvent);
 }
