@@ -1,7 +1,8 @@
 
 module.exports = (event, cb) => {
+  var JoinEvent
   if (event.source.type == "group") {
-    var JoinEvent = {
+    JoinEvent = {
       joinId: event.source.groupId,
       sendMessage: (message) => {
         if (typeof(message) == "string") {
@@ -13,7 +14,7 @@ module.exports = (event, cb) => {
       }
     }
   } else {
-    var JoinEvent = {
+    JoinEvent = {
       joinId: event.source.roomId,
       sendMessage: (message) => {
         if (typeof(message) == "string") {
@@ -25,6 +26,5 @@ module.exports = (event, cb) => {
     }
   }
 
-  console.log(JoinEvent);
   cb(JoinEvent);
 }
