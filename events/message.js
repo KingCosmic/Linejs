@@ -33,15 +33,6 @@ module.exports = (event, cb) => {
       var group = {
         group: {
           id: event.source.groupId,
-          getMemberIds: new Promise((resolve, reject) => {
-            LineClient.getGroupMemberIds(event.source.groupId)
-            .then((userIds) => {
-              resolve(userIds);
-            })
-            .catch((err) => {
-              reject(err);
-            })
-          }),
           sendMessage: (content) => {
             if (typeof(content) == "string") {
               LineClient.pushMessage(event.source.groupId, {type: "text", text: content});
@@ -60,15 +51,6 @@ module.exports = (event, cb) => {
       var room = {
         room: {
           id: event.source.roomId,
-          getMemberIds: new Promise((resolve, reject) => {
-            LineClient.getRoomMemberIds(event.source.roomId)
-            .then((userIds) => {
-              resolve(userIds);
-            })
-            .catch((err) => {
-              reject(err);
-            })
-          }),
           sendMessage: (content) => {
             if (typeof(content) == "string") {
               LineClient.pushMessage(event.source.roomId, {type: "text", text: content});
