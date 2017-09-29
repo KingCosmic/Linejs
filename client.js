@@ -15,14 +15,6 @@ module.exports = function Client(config) {
     channelSecret: config.channelSecret
   })
 
-  this.sendMessage = (id, message) => {
-    if (typeof(content) == "string") {
-      LineClient.pushMessage(id, {type: "text", text: message});
-    } else if (typeof(content) == "object") {
-      LineClient.pushMessage(id, message);
-    }
-  }
-
   this.callBacks = {};
 
   this.on = (event, callback) => {
@@ -44,6 +36,15 @@ module.exports = function Client(config) {
         reject(err);
       })
     })
+  }
+
+  this.sendMessage = (id, message) => {
+    console.log("i mde it")
+    if (typeof(message) == "string") {
+      LineClient.pushMessage(id, {type: "text", text: message});
+    } else if (typeof(message) == "object") {
+      LineClient.pushMessage(id, message);
+    }
   }
 
   this.event = (event, eventArg) => {
