@@ -39,7 +39,6 @@ module.exports = function Client(config) {
   }
 
   this.sendMessage = (id, message) => {
-    console.log("i mde it")
     if (typeof(message) == "string") {
       LineClient.pushMessage(id, {type: "text", text: message});
     } else if (typeof(message) == "object") {
