@@ -13,17 +13,29 @@ module.exports = (event, cb) => {
           statusMessage: profile.statusMessage,
           sendMessage: (content) => {
             if (typeof(content) == "string") {
-              LineClient.pushMessage(profile.userId, {type: "text", text: content});
-            } else if (typeof(content) == "object") {
-              LineClient.pushMessage(profile.userId, content);
+              return LineClient.replyMessage(event.replyToken, {type: "text", text: content})
+              .catch((err) => {
+                console.log(err);
+              })
+            } else {
+              return LineClient.replyMessage(event.replyToken, content)
+              .catch((err) => {
+                console.log(err);
+              })
             }
           }
         },
         reply: (content) => {
           if (typeof(content) == "string") {
-            LineClient.replyMessage(event.replyToken, {type: "text", text: content});
-          } else if (typeof(content) == "object") {
-            LineClient.replyMessage(event.replyToken, content);
+            return LineClient.replyMessage(event.replyToken, {type: "text", text: content})
+            .catch((err) => {
+              console.log(err);
+            })
+          } else {
+            return LineClient.replyMessage(event.replyToken, content)
+            .catch((err) => {
+              console.log(err);
+            })
           }
         }
       }
@@ -35,13 +47,13 @@ module.exports = (event, cb) => {
           id: event.source.groupId,
           sendMessage: (content) => {
             if (typeof(content) == "string") {
-              LineClient.pushMessage(event.source.groupId, {type: "text", text: content});
-            } else if (typeof(content) == "object") {
-              LineClient.pushMessage(event.source.groupId, content);
+              return LineClient.pushMessage(event.source.groupId, {type: "text", text: content});
+            } else {
+              return LineClient.pushMessage(event.source.groupId, content);
             }
           },
           leave: () => {
-            LineClient.leaveGroup(event.source.groupId);
+            return LineClient.leaveGroup(event.source.groupId);
           }
         }
       }
@@ -53,13 +65,13 @@ module.exports = (event, cb) => {
           id: event.source.roomId,
           sendMessage: (content) => {
             if (typeof(content) == "string") {
-              LineClient.pushMessage(event.source.roomId, {type: "text", text: content});
-            } else if (typeof(content) == "object") {
-              LineClient.pushMessage(event.source.roomId, content);
+              return LineClient.pushMessage(event.source.roomId, {type: "text", text: content});
+            } else {
+              return LineClient.pushMessage(event.source.roomId, content);
             }
           },
           leave: () => {
-            LineClient.leaveGroup(event.source.roomId);
+            return LineClient.leaveGroup(event.source.roomId);
           }
         }
       }

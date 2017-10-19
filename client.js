@@ -27,22 +27,20 @@ module.exports = function Client(config) {
   }
 
   this.getUserProfile = (userId) => {
-    return new Promise((resolve, reject) => {
-      LineClient.getProfile(userId)
-      .then((userProfile) => {
-        resolve(userProfile);
-      })
-      .catch((err) => {
-        reject(err);
-      })
-    })
+    return LineClient.getProfile(userId);
   }
 
   this.sendMessage = (id, message) => {
-    if (typeof(message) == "string") {
-      LineClient.pushMessage(id, {type: "text", text: message});
-    } else if (typeof(message) == "object") {
-      LineClient.pushMessage(id, message);
+    if (typeof(id) == 'array') {
+      LineClient.multicast(id, typeof(message) == 'string' ? { type: 'text', text: message } : message)
+      .catch((err) => {
+        console.log(err);
+      })
+    } else {
+      LineClient.pushMessage(id, typeof(message) == 'string' ? { type: 'text', text: message } : message)
+      .catch((err) => {
+        console.log(err);
+      })
     }
   }
 
