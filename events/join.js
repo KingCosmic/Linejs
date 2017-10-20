@@ -4,7 +4,7 @@ module.exports = (event, cb) => {
   if (event.source.type == "group") {
     JoinEvent = {
       joinId: event.source.groupId,
-      sendMessage: (message) => {
+      sendMessage: (content) => {
         if (typeof(content) == "string") {
           return LineClient.replyMessage(event.replyToken, {type: "text", text: content})
           .catch((err) => {
@@ -21,7 +21,7 @@ module.exports = (event, cb) => {
   } else {
     JoinEvent = {
       joinId: event.source.roomId,
-      sendMessage: (message) => {
+      sendMessage: (content) => {
         if (typeof(content) == "string") {
           return LineClient.replyMessage(event.replyToken, {type: "text", text: content})
           .catch((err) => {

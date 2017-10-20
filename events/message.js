@@ -13,12 +13,12 @@ module.exports = (event, cb) => {
           statusMessage: profile.statusMessage,
           sendMessage: (content) => {
             if (typeof(content) == "string") {
-              return LineClient.replyMessage(event.replyToken, {type: "text", text: content})
+              return LineClient.replyMessage(profile.userId, {type: "text", text: content})
               .catch((err) => {
                 console.log(err);
               })
             } else {
-              return LineClient.replyMessage(event.replyToken, content)
+              return LineClient.replyMessage(profile.userId, content)
               .catch((err) => {
                 console.log(err);
               })
