@@ -3,7 +3,13 @@ module.exports = (event, cb) => {
   var JoinEvent
   if (event.source.type == "group") {
     JoinEvent = {
-      joinId: event.source.groupId,
+      id: event.source.groupId,
+      getGroupMemberIds: () => {
+        return LineClient.getGroupMemberIds(event.source.groupId)
+        .catch((err) => {
+          console.log(err);
+        })
+      },
       sendMessage: (content) => {
         if (typeof(content) == "string") {
           return LineClient.replyMessage(event.replyToken, {type: "text", text: content})
@@ -20,7 +26,7 @@ module.exports = (event, cb) => {
     }
   } else {
     JoinEvent = {
-      joinId: event.source.roomId,
+      id: event.source.roomId,
       sendMessage: (content) => {
         if (typeof(content) == "string") {
           return LineClient.replyMessage(event.replyToken, {type: "text", text: content})

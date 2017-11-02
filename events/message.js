@@ -45,6 +45,12 @@ module.exports = (event, cb) => {
       var group = {
         group: {
           id: event.source.groupId,
+          getGroupMemberIds: () => {
+            return LineClient.getGroupMemberIds(event.source.groupId)
+            .catch((err) => {
+              console.log(err);
+            })
+          },
           sendMessage: (content) => {
             if (typeof(content) == "string") {
               return LineClient.pushMessage(event.source.groupId, {type: "text", text: content});

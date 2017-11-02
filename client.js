@@ -69,8 +69,6 @@ module.exports = function Client(config) {
     }, this);
   })
 
-  this.app.listen(config.port, () => {
-
-  });
+  this.app.listen(config.port);
   
 }

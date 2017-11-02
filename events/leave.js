@@ -1,7 +1,7 @@
 
 module.exports = (event, cb) => {
   var leaveEvent = {
-    leaveId: event.source.groupId
+    id: event.source.groupId
   }
 
   cb(leaveEvent);
