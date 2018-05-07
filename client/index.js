@@ -5,13 +5,13 @@ const express = require('express');
 const middleware = require('../middleware');
 
 class Client {
-  constructor(config) {
+  constructor({ channelSecret, port }) {
 
     this.callbacks = {};
 
     this.app = express();
 
-    this.app.post('/', middleware, (req, res) => {
+    this.app.post('/', middleware(channelSecret), (req, res) => {
       var events = req.body.events;
 
       for (let i = 0; i < events.lenth; i++) {
@@ -21,7 +21,7 @@ class Client {
       };
     });
 
-    this.app.listen(config.port);
+    this.app.listen(port);
   }
 
   on(event, callback) {
