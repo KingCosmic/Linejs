@@ -1,5 +1,5 @@
 const { raw } = require('body-parser');
-const validateSignature = require('./validate-signature');
+const validateSignature = require('./validateSignature');
 
 const middleware = (channelSecret) => {
   if (!channelSecret) throw new Error('no channel secret');
