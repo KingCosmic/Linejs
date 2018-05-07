@@ -17,7 +17,7 @@ class Client {
       for (let i = 0; i < events.lenth; i++) {
         let event = events[i];
 
-        this.event(require(`./events/${event.type}`)(event));
+        this.event(event.type, require(`./events/${event.type}`)(event));
       };
     });
 
