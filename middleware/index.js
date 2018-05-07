@@ -9,17 +9,12 @@ const middleware = (channelSecret) => {
     const signature = req.headers['x-line-signature'];
 
     if (!signature) return next(new Error('no signature'));
-    console.log(req.body);
-    console.log(typeof req.body);
+    let body = JSON.stringify(req.body);
 
-    if (typeof req.body === 'string' || Buffer.isBuffer(req.body)) {
+    if (typeof body === 'string' || Buffer.isBuffer(body)) {
       console.log('was parsed');
       return validate(req.body, channelSecret, signature, next);
     }
-
-    // if body is not parsed yet, parse it to a buffer
-    console.log('wasnt parsed');
-    raw({ type: '*/*' })(req, () => validate(req.body, channelSecret, signature, next));
   }
 }
 
