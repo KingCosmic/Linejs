@@ -1,14 +1,14 @@
 const { reply } = require('../urls');
 const { post } = require('../http');
 
-const { toArray } = require('../helpers');
+const { makeMessages } = require('../helpers');
 
 module.exports = (token, replyToken, messages) => {
   return post(
     token,
     reply,
     {
-      messages: toArray(messages),
+      messages: makeMessages(messages),
       replyToken
     }
   );

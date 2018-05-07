@@ -6,20 +6,21 @@ const { json } = require('body-parser');
 const middleware = require('../middleware');
 
 class Client {
-  constructor({ channelSecret, port }) {
+  constructor({ channelAccessToken, channelSecret, port }) {
+    this.channelAccessToken = channelAccessToken;
+    this.channelSecret = channelSecret;
 
     this.callbacks = {};
+
+    let self = this;
 
     polka()
     .use(json(), middleware(channelSecret))
     .post('/', ({ body: { events }}, res) => {
-
-      for (let i = 0; i < events.lenth; i++) {
+      for (let i = 0; i < events.length; i++) {
         let event = events[i];
-
-        this.event(event.type, require(`./events/${event.type}`)(event));
+        self.event(event.type, require(`./events/${event.type}`)(event, self.channelAccessToken));
       };
-
     })
     .listen(port).then(_ => {
       console.log(`> Running on localhost: ${port}`);
@@ -35,12 +36,11 @@ class Client {
     }
   }
 
-  emit(event, eventArg) {
-
+  event(event, eventArg) {
     if (!this.callbacks[event]) return;
 
-    for (let i = 0; i < this.callbacks[event].lenth; i++) {
-      this.callbacks[event](eventArg)
+    for (let i = 0; i < this.callbacks[event].length; i++) {
+      this.callbacks[event][i](eventArg)
     }
   }
 }

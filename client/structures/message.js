@@ -14,7 +14,8 @@ class Message {
   constructor({ event, token }) {
     this.token = token;
 
-    this.author = new User(event.source.userId);
+    this.author = new User({ id: event.source.userId, token });
+    this.source = 'user';
 
     switch(event.message.type) {
       case 'text':
@@ -35,7 +36,14 @@ class Message {
   }
 
   reply(messages) {
-    return pushMessage(this.token, event.source.userId)
+    switch(this.source) {
+      case 'user':
+        return pushMessage(this.token, this.author.id, messages);
+      case 'group':
+        return pushMessage(this.token, this.group.id, messages);
+      case 'room':
+        return pushMessage(this.token, this.room.id, messages);
+    }
   }
 }
 

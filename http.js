@@ -6,8 +6,8 @@ const userAgent = `${pkg.name}/${pkg.version}`;
 
 exports.get = (token, url) => {
   return snek.get(url, {
-    agent: userAgent,
     headers: {
+      'User-Agent': userAgent,
       'Authorization': `Bearer ${token}`
     }
   })
@@ -16,9 +16,9 @@ exports.get = (token, url) => {
 
 exports.post = (token, url, data) => {
   return snek.post(url, {
-    agent: userAgent,
     data: data,
     headers: {
+      'User-Agent': userAgent,
       'Accept': 'application/json',
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}`
@@ -29,8 +29,8 @@ exports.post = (token, url, data) => {
 
 exports.del = (token, url) => {
   return snek.delete(url, {
-    agent: userAgent,
     headers: {
+      'User-Agent': userAgent,
       'Authorization': `Bearer ${token}`
     }
   })

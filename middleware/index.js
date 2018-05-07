@@ -11,10 +11,7 @@ const middleware = (channelSecret) => {
     if (!signature) return next(new Error('no signature'));
     let body = JSON.stringify(req.body);
 
-    if (typeof body === 'string' || Buffer.isBuffer(body)) {
-      console.log('was parsed');
-      return validate(req.body, channelSecret, signature, next);
-    }
+    return validate(body, channelSecret, signature, next);
   }
 }
 
@@ -22,14 +19,7 @@ const validate = (body, secret, signature, next) => {
   if (!validateSignature(body, secret, signature))
     return next(new Error(`signature validation failed ${signature}`));
 
-  const strBody = Buffer.isBuffer(body) ? body.toString() : body;
-
-  try {
-    req.body = JSON.parse(strBody);
-    next();
-  } catch (err) {
-    next(new Error(err.message));
-  }
+  next();
 };
 
 module.exports = middleware;
