@@ -1,4 +1,4 @@
-const { createHmac, Hmac, timingSafeEqual } = require('crypto');
+const { createHmac, timingSafeEqual } = require('crypto');
 
 const s2b = (str, encoding) => {
   if (Buffer.from) {

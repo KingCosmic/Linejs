@@ -1,4 +1,3 @@
-const { raw } = require('body-parser');
 const validateSignature = require('./validateSignature');
 
 const middleware = (channelSecret) => {
@@ -10,6 +9,8 @@ const middleware = (channelSecret) => {
     const signature = req.headers['x-line-signature'];
 
     if (!signature) return next(new Error('no signature'));
+    console.log(req.body);
+    console.log(typeof req.body);
 
     if (typeof req.body === 'string' || Buffer.isBuffer(req.body)) {
       console.log('was parsed');
