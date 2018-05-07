@@ -2,7 +2,7 @@
   "name": "line.js",
   "version": "4.3.9",
   "description": "wrapper for the line api",
-  "main": "/src/index.js",
+  "main": "./src/index.js",
   "author": "KingCosmic",
   "license": "MIT",
   "private": false,
