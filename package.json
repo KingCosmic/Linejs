@@ -1,13 +1,11 @@
 {
   "name": "line.js",
-  "version": "3.4.0",
-  "description": "a wrapper for the line api",
+  "version": "4.0.0",
+  "description": "wrapper for the line api",
   "main": "index.js",
-  "scripts": {
-    "test": "node test.js"
-  },
   "author": "KingCosmic",
   "license": "MIT",
+  "private": false,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/KingCosmic/Linejs.git"
@@ -17,12 +15,8 @@
   },
   "homepage": "https://github.com/KingCosmic/Linejs#readme",
   "dependencies": {
-    "@line/bot-sdk": "^2.0.0",
-    "express": "^4.15.4"
-  },
-  "keywords": [
-    "line",
-    "wrapper",
-    "api"
-  ]
+    "express": "^4.16.3",
+    "query-string": "^6.1.0",
+    "snekfetch": "^4.0.0"
+  }
 }

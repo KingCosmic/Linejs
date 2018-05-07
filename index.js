@@ -1,5 +1,6 @@
 
-
 module.exports = {
-  Client: require('./client.js')
+  client: require('./client'),
+  middleware: require('./middleware'),
+  actions: require('./actions'),
 }
