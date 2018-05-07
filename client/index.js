@@ -43,4 +43,4 @@ class Client {
   }
 }
 
-module.exports = client;
+module.exports = Client;
