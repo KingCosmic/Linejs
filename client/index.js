@@ -42,3 +42,5 @@ class Client {
     }
   }
 }
+
+module.exports = client;
