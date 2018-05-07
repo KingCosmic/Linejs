@@ -6,7 +6,6 @@ const middleware = require('../middleware');
 
 class Client {
   constructor(config) {
-    super(config);
 
     this.callbacks = {};
 
