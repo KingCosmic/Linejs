@@ -1,7 +1,8 @@
 // express so we can setup our server for real time events
 // via webhooks
-const express = require('express');
+const polka = require('polka');
 // middleware for express
+const { json } = require('body-parser');
 const middleware = require('../middleware');
 
 class Client {
@@ -9,19 +10,20 @@ class Client {
 
     this.callbacks = {};
 
-    this.app = express();
-
-    this.app.post('/', middleware(channelSecret), (req, res) => {
-      var events = req.body.events;
+    polka()
+    .use(json(), middleware(channelSecret))
+    .post('/', ({ body: { events }}, res) => {
 
       for (let i = 0; i < events.lenth; i++) {
         let event = events[i];
 
         this.event(event.type, require(`./events/${event.type}`)(event));
       };
-    });
 
-    this.app.listen(port);
+    })
+    .listen(port).then(_ => {
+      console.log(`> Running on localhost: ${port}`);
+    });
   }
 
   on(event, callback) {

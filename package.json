@@ -15,7 +15,8 @@
   },
   "homepage": "https://github.com/KingCosmic/Linejs#readme",
   "dependencies": {
-    "express": "^4.16.3",
+    "body-parser": "^1.18.2",
+    "polka": "^0.3.4",
     "query-string": "^6.1.0",
     "snekfetch": "^4.0.0"
   }
