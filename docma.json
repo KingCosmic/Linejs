@@ -1,0 +1,24 @@
+{
+  "src": "./src/** /*.js",
+  "dest": "./docs",
+  "app": {
+    "title": "line.js",
+    "routing": "query",
+    "entrance": "content:guide",
+    "base": "/"
+  },
+  "template": {
+    "path": "zebra",
+    "options": {
+      "title": {
+        "label": "line.js",
+        "href": "/docs/?"
+      },
+      "navbar": true,
+      "sidebar": {
+        "enabled": true,
+        "outline": "tree"
+      }
+    }
+  }
+}
