@@ -1,6 +1,6 @@
 const snek = require('snekfetch');
 
-const pkg = require('./package.json');
+const pkg = require('../package.json');
 
 const userAgent = `${pkg.name}/${pkg.version}`;
 
