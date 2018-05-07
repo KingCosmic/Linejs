@@ -25,11 +25,11 @@ class Client {
   }
 
   on(event, callback) {
-    if (this.callBacks[event]) {
-      this.callBacks[event].push(callback);
-    } else if (!this.callBacks[event]) {
-      this.callBacks[event] = []
-      this.callBacks[event].push(callback);
+    if (this.callbacks[event]) {
+      this.callbacks[event].push(callback);
+    } else if (!this.callbacks[event]) {
+      this.callbacks[event] = []
+      this.callbacks[event].push(callback);
     }
   }
 
