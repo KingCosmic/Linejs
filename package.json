@@ -1,6 +1,6 @@
 {
   "name": "line.js",
-  "version": "4.0.0",
+  "version": "4.1.0",
   "description": "wrapper for the line api",
   "main": "index.js",
   "author": "KingCosmic",
